@@ -185,7 +185,7 @@ def main():
         model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore = True, dump = args.dump)
 
     pp = FilePaths()
-    pp.paths = Path(r'C:\Users\semih\Noteedom\segmented').glob('*.png')
+    pp.paths = Path(r'C:\Users\semih\Note\segmented').glob('*.png')
     for path in pp.paths:
 
         infer(model, path)

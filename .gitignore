@@ -1,5 +1,8 @@
 env/
-
+deneme.py
+segmented/
+model/
+image/
 .idea/*
 __pycache__/
 *.py[cod]

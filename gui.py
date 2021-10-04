@@ -19,6 +19,7 @@ from path import Path
 from dataloader_iam import DataLoaderIAM, Batch
 from model import Model, DecoderType
 from preprocessor import Preprocessor
+from main import *
 # App Gui
 import PyQt5
 from PyQt5.QtGui import *
@@ -66,18 +67,12 @@ class NOTEEDOM(QtWidgets.QMainWindow):
         self.ui.label_ocr.setMouseTracking(True)
         self.ui.label_ocr.installEventFilter(self)
         self.ui.label_ocr.setAlignment(PyQt5.QtCore.Qt.AlignTop)
-        self.ui.label_ocr.setStyleSheet("background-color : #000000")
-        self.ui.label_ocr.setStyleSheet("background-image : url(icon/layer_icon.png)")
+        self.ui.label_ocr.setStyleSheet("background-image : url(icon/layer_icon.png)")#ÖZELLEŞTİR
 
         self.ui.label_htr.setMouseTracking(True)
         self.ui.label_htr.installEventFilter(self)
         self.ui.label_htr.setAlignment(PyQt5.QtCore.Qt.AlignTop)
-        self.ui.label_htr.setStyleSheet("background-image : url(icon/layer_icon.png)")
-
-        self.ui.label_pdf.setMouseTracking(True)
-        self.ui.label_pdf.installEventFilter(self)
-        self.ui.label_pdf.setAlignment(PyQt5.QtCore.Qt.AlignTop)
-        self.ui.label_pdf.setStyleSheet("background-image : url(icon/layer_icon.png)")
+        self.ui.label_htr.setStyleSheet("background-image : url(icon/layer_icon.png)")#ÖZELLEŞTİR
 
         self.comboBox_lang.addItems(language_names_list)
         self.comboBox_lang.currentIndexChanged['QString'].connect(self.update_lang)
@@ -113,8 +108,6 @@ class NOTEEDOM(QtWidgets.QMainWindow):
             self.ui.label_ocr.setPixmap(QPixmap.fromImage(image))
         elif self.ui.tabWidget.currentIndex() == 1:
             self.ui.label_htr.setPixmap(QPixmap.fromImage(image))
-        elif self.ui.tabWidget.currentIndex() == 2:
-            self.ui.label_pdf.setPixmap(QPixmap.fromImage(image))
         else:
             return 0
 
@@ -130,8 +123,13 @@ class NOTEEDOM(QtWidgets.QMainWindow):
     # Word Segmentation from full page for HTR
     @staticmethod
     def get_htr(image):
-        # image = cv2.imread("cropped.png")
-        image = cv2.resize(image, (int(image.shape[1]), 1000))
+        folder_path = 'segmented'
+        folder = os.listdir(folder_path)
+        for images in folder:
+            if images.endswith(".png"):
+                os.remove(os.path.join(folder_path, images))
+        image = cv2.imread("image/cropped.png")
+        # image = cv2.resize(image, (int(image.shape[1]), 1000))
         rgb_planes = cv2.split(image)
         result_planes = []
         result_norm_planes = []
@@ -160,64 +158,6 @@ class NOTEEDOM(QtWidgets.QMainWindow):
                 save = Image.fromarray(text[y1:y2, x1:x2])
                 save.save("segmented/" + str(i + 100) + ".png")
                 i += 1
-        return image
-
-    def get_text(self, image):
-        class FilePaths:
-            # filenames and paths to data
-            fn_char_list = r'model\charList.txt'
-
-        # def get_img_height() -> int:
-        #     # """Fixed height for NN."""
-        #     return 32
-        #
-        # def get_img_size(line_mode: bool = False) -> Tuple[int, int]:
-        #     # Height is fixed for NN, width is set according to training mode (single words or text lines)
-        #     if line_mode:
-        #         return 256, get_img_height()
-        #     return 128, get_img_height()
-
-        def infer(_model: Model, fn_img: Path) -> None:
-            """Recognizes text in image provided by file path."""
-            f = open("HTR_text.txt", "a")
-            img = cv2.imread(fn_img, cv2.IMREAD_GRAYSCALE)
-            assert img is not None
-
-            preprocessor = Preprocessor((128,32), dynamic_width=False, padding=16)
-            img = preprocessor.process_img(img)
-            batch = Batch([img], None, 1)
-            recognized, probability = _model.infer_batch(batch, True)
-            f.write(f'{recognized[0]}' + " ")
-            print(f'Recognized: "{recognized[0]}"')
-            print(f'Probability: {probability[0]}')
-
-        def main():
-            """Main function."""
-            global model
-            parser = argparse.ArgumentParser()
-            parser.add_argument('--mode', choices=['train', 'validate', 'infer'], default='infer')
-            parser.add_argument('--decoder', choices=['bestpath', 'wordbeamsearch'], default='bestpath')
-            parser.add_argument('--batch_size', help='Batch size.', type=int, default=100)
-            parser.add_argument('--data_dir', help='Directory containing IAM dataset.', type=Path, required=False)
-            parser.add_argument('--fast', help='Load samples from LMDB.', action='store_true')
-            parser.add_argument('--line_mode', help='Train to read text lines instead of single words.',
-                                action='store_true')
-            parser.add_argument('--early_stopping', help='Early stopping epochs.', type=int, default=10)
-            parser.add_argument('--dump', help='Dump output of NN to CSV file(s).', action='store_true')
-            args = parser.parse_args()
-
-            # set chosen CTC decoder
-            decoder_mapping = {'bestpath': DecoderType.BestPath,
-                               'wordbeamsearch': DecoderType.WordBeamSearch}
-            decoder_type = decoder_mapping[args.decoder]
-
-            model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore=True, dump=None)
-            pp = FilePaths()
-            pp.paths = Path('segmented').glob('*.png')
-            for img in pp.paths:
-                infer(model, img)
-        if __name__ == '__main__':
-            main()
 
     def eventFilter(self, source, event):
         width = 0
@@ -260,41 +200,15 @@ class NOTEEDOM(QtWidgets.QMainWindow):
                 height = rect.height()
             if width >= 5 and height >= 5 and self.image is not None:
                 crop = self.image[self.left_top.y():self.left_top.y() + height,
-                                  self.left_top.x():self.left_top.x() + width]
+                       self.left_top.x():self.left_top.x() + width]
+
                 cv2.imwrite("image/cropped.png", crop)
-                folder_path = 'segmented'
-                folder = os.listdir(folder_path)
-                for images in folder:
-                    if images.endswith(".png"):
-                        os.remove(os.path.join(folder_path, images))
-                # self.get_htr(self.image)
-                self.get_text(self.get_htr(self.image))
+                self.get_htr(self.image)
+                os.system("python main.py --mode infer --decoder bestpath")
                 self.text = open("HTR_text.txt", "r").readlines()
                 self.ui.textEdit.setText(str(self.text))
                 f = open("HTR_text.txt", "w")
                 f.write("")
-            else:
-                self.rubberBand.hide()
-        if event.type() == QEvent.MouseButtonPress and source is self.ui.label_pdf:
-            self.org = self.mapFromGlobal(event.globalPos())
-            self.left_top = event.pos()
-            self.rubberBand.setGeometry(QRect(self.org, QSize()))
-            self.rubberBand.show()
-        elif event.type() == QEvent.MouseMove and source is self.ui.label_pdf:
-            if self.rubberBand.isVisible():
-                self.rubberBand.setGeometry(QRect(self.org, self.mapFromGlobal(event.globalPos())).normalized())
-        elif event.type() == QEvent.MouseButtonRelease and source is self.ui.label_pdf:
-            if self.rubberBand.isVisible():
-                self.rubberBand.hide()
-                rect = self.rubberBand.geometry()
-                width = rect.width()
-                height = rect.height()
-            if width >= 5 and height >= 5 and self.image is not None:
-                crop = self.image[self.left_top.y():self.left_top.y() + height,
-                                  self.left_top.x():self.left_top.x() + width]
-                cv2.imwrite("image/cropped.png", crop)
-                # self.text = self.get_ocr(crop)
-                # self.ui.textEdit.setText(str(self.text))
             else:
                 self.rubberBand.hide()
         else:
