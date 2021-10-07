@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-
 import pytesseract
 import cv2
 import sys
@@ -41,12 +40,7 @@ for path in language_path_list:
     base_name = os.path.splitext(base_name)[0]
     language_names_list.append(base_name)
 
-font_list = []
-font = 20
 
-for font in range(53):
-    font += 2
-    font_list.append(str(font))
 
 
 # Gui setup
@@ -73,6 +67,12 @@ class NOTEEDOM(QtWidgets.QMainWindow):
         self.ui.label_htr.installEventFilter(self)
         self.ui.label_htr.setAlignment(PyQt5.QtCore.Qt.AlignTop)
         self.ui.label_htr.setStyleSheet("background-image : url(icon/layer_icon.png)")#ÖZELLEŞTİR
+        font_list = []
+
+
+        for font in range(41):
+            font += 10
+            font_list.append(str(font))
 
         self.comboBox_lang.addItems(language_names_list)
         self.comboBox_lang.currentIndexChanged['QString'].connect(self.update_lang)
