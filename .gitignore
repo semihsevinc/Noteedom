@@ -1,6 +1,7 @@
 env/
 deneme.py
-segmented
+segmented/
+
 model/
 image/
 images/

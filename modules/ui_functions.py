@@ -1,4 +1,4 @@
-from newgui import *
+from noteedom import *
 GLOBAL_STATE = False
 GLOBAL_TITLE_BAR = True
 

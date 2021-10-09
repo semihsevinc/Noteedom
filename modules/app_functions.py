@@ -1,4 +1,4 @@
-from newgui import *
+from noteedom import *
 
 class AppFunctions(MainWindow):
     def setThemeHack(self):

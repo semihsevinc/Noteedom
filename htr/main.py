@@ -4,16 +4,16 @@ from typing import Tuple, List
 import cv2
 import editdistance
 from path import Path
-
+import sys
 from htr.dataloader_iam import DataLoaderIAM, Batch
 from htr.model import Model, DecoderType
 from htr.preprocessor import Preprocessor
 
 class FilePaths:
     "filenames and paths to data"
-    fn_char_list = r'C:\Users\semih\Noteedom\model\charList.txt'
-    fn_summary = r'C:\Users\semih\Noteedom\model\summary.json'
-    fn_corpus = r'C:\Users\semih\Noteedom\data\corpus.txt'
+    fn_char_list = r'C:\Users\semih\Note\model\charList.txt'
+    fn_summary = r'model\summary.json'
+    fn_corpus = r'data\corpus.txt'
 
     from pathlib import Path
 
@@ -155,32 +155,32 @@ def main():
                        'beamsearch': DecoderType.BeamSearch,
                        'wordbeamsearch': DecoderType.WordBeamSearch}
     decoder_type = decoder_mapping[args.decoder]
+    #
+    # # train or validate on IAM dataset
+    # if args.mode in ['train', 'validate']:
+    #     # load training data, create TF model
+    #     loader = DataLoaderIAM(args.data_dir, args.batch_size, fast=args.fast)
+    #     char_list = loader.char_list
+    #
+    #     # when in line mode, take care to have a whitespace in the char list
+    #     if args.line_mode and ' ' not in char_list:
+    #         char_list = [' '] + char_list
+    #
+    #     # save characters of model for inference mode
+    #     open(FilePaths.fn_char_list, 'w').write(''.join(char_list))
+    #
+    #     # save words contained in dataset into file
+    #     open(FilePaths.fn_corpus, 'w').write(' '.join(loader.train_words + loader.validation_words))
+    #
+    #     # execute training or validation
+    #     if args.mode == 'train':
+    #         model = Model(char_list, decoder_type)
+    #         train(model, loader, line_mode=args.line_mode, early_stopping=args.early_stopping)
+    #     elif args.mode == 'validate':
+    #         model = Model(char_list, decoder_type, must_restore=True)
+    #         validate(model, loader, args.line_mode)
 
-    # train or validate on IAM dataset
-    if args.mode in ['train', 'validate']:
-        # load training data, create TF model
-        loader = DataLoaderIAM(args.data_dir, args.batch_size, fast=args.fast)
-        char_list = loader.char_list
-
-        # when in line mode, take care to have a whitespace in the char list
-        if args.line_mode and ' ' not in char_list:
-            char_list = [' '] + char_list
-
-        # save characters of model for inference mode
-        open(FilePaths.fn_char_list, 'w').write(''.join(char_list))
-
-        # save words contained in dataset into file
-        open(FilePaths.fn_corpus, 'w').write(' '.join(loader.train_words + loader.validation_words))
-
-        # execute training or validation
-        if args.mode == 'train':
-            model = Model(char_list, decoder_type)
-            train(model, loader, line_mode=args.line_mode, early_stopping=args.early_stopping)
-        elif args.mode == 'validate':
-            model = Model(char_list, decoder_type, must_restore=True)
-            validate(model, loader, args.line_mode)
-
-    elif args.mode == 'infer':
+    if args.mode == 'infer':
 
         model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore = True, dump = args.dump)
 
