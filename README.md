@@ -49,6 +49,6 @@ You can see the result in the window that opens by clicking on the ‘HTR Result
 PDF Scanner
 </h2>
 <h3 align="left">
-Not Able to Use (Will Operateable Soon)</h3>
+Not Able to Use (Will Operate Soon)</h3>
 
-[![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)]
+![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)
