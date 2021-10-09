@@ -14,16 +14,16 @@ NOTEEDOM APP - Optical Character and Handwritten Text Recognition
 <h3 align="center">
 The basis of this application was created in Sakarya University Electrical Electronics Engineering Graduation Project. The final purpose of the application is to convert the handwritten image to optical writing (HTR). Also optical character recognition(OCR) can also be performed using Google Tesseract.
 </h3> 
-To open the application, you need to;</br>
-Clone this repo,</br>
-Import all libraries,</br>
-Run newgui.py</br>
+<h3 align="left">
+To Open the Noteedom Application
+</h3>
+Clone This Repositories</br>
+Run noteedom.py</br>
 
 <h2 align="center">
 OCR
-</h2></br>
+</h2>
 These software, called 'Optical Character Recognition', are developed to transfer text contained in a scanned document, photo to a computer environment. Under normal conditions, graphic files transferred to the computer via a browser are detected by the computer as images. The text in this graphic file can be analyzed by OCR software and converted to a text file. The text will be transferred to the computer without the need to use a keyboard. The data that is texted with OCR is the data that can be edited. Although the error rate of OCR software is not zero, its use has become quite common today. When it is called a program for converting a photo to text, what is meant is OCR software. In this application, Google Tesseract has been used for this operation.
-
 <h3 align="left">
 To use OCR, you need to:
 </h3>
