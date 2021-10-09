@@ -5,9 +5,9 @@ import cv2
 import editdistance
 from path import Path
 
-from dataloader_iam import DataLoaderIAM, Batch
-from model import Model, DecoderType
-from preprocessor import Preprocessor
+from htr.dataloader_iam import DataLoaderIAM, Batch
+from htr.model import Model, DecoderType
+from htr.preprocessor import Preprocessor
 
 class FilePaths:
     "filenames and paths to data"

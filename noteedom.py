@@ -2,22 +2,23 @@ import pytesseract
 import cv2
 import sys
 import os
+import numpy as np
 # Word Segmentation
 import glob
 from PIL import Image
-import page
-import words
-import numpy as np
+import segmentation.page
+import segmentation.words
 # HTR
 import argparse
 import json
 from typing import Tuple, List
 import editdistance
 from path import Path
-from dataloader_iam import DataLoaderIAM, Batch
-from model import Model, DecoderType
-from preprocessor import Preprocessor
-from main import *
+from htr.dataloader_iam import DataLoaderIAM, Batch
+from htr.model import Model, DecoderType
+from htr.preprocessor import Preprocessor
+from htr.main import *
+# GUI
 import platform
 from modules import *
 from widgets import *
@@ -48,6 +49,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         QMainWindow.__init__(self)
         Settings.ENABLE_CUSTOM_TITLE_BAR = True
+        AppFunctions.setThemeHack(self)
         global widgets
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -55,7 +57,7 @@ class MainWindow(QMainWindow):
         self.setWindowIcon(QIcon("icon/icon.ico"))
         self.title = "NOTEEDOM - For Everyone"
         self.description = "NOTEEDOM APP - Optical Character and Handwritten Text Recognition"
-        self.language = "tur"
+        self.language = "eng"
         self.font_size = "26"
         self.text = 'NOTEEDOM APP - Optical Character and Handwritten Text Recognition'
         self.image = None
@@ -95,6 +97,8 @@ class MainWindow(QMainWindow):
         widgets.btn_ocr.clicked.connect(self.buttonClick)
         widgets.btn_pdf.clicked.connect(self.buttonClick)
         widgets.btn_open.clicked.connect(self.open)
+        widgets.btn_bottom_htr.clicked.connect(self.buttonClick)
+        widgets.btn_bottom_ocr.clicked.connect(self.buttonClick)
 
         # SET HOME PAGE AND SELECT MENU
         widgets.stackedWidget.setCurrentWidget(widgets.page_htr)
@@ -146,6 +150,18 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.page_pdf)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
+        if btnName == "btn_bottom_htr":
+            widgets.stackedWidget.setCurrentWidget(widgets.page_htr)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
+        # SHOW PDF SCANNER PAGE
+        if btnName == "btn_bottom_ocr":
+            widgets.stackedWidget.setCurrentWidget(widgets.page_ocr)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+
 
     def open(self):
         filename = QFileDialog.getOpenFileName(self, 'Open a file', '',
@@ -200,9 +216,9 @@ class MainWindow(QMainWindow):
         cv2.imwrite('image/preprocessed.png', shadows_out_image)
 
         # Crop image and get limiting lines of boxes
-        crop = page.detection(shadows_out_image)
-        boxes = words.detection(crop)
-        lines = words.sort_words(boxes)
+        crop = segmentation.page.detection(shadows_out_image)
+        boxes = segmentation.words.detection(crop)
+        lines = segmentation.words.sort_words(boxes)
 
         i = 0
         for line in lines:
@@ -257,7 +273,7 @@ class MainWindow(QMainWindow):
 
                 cv2.imwrite("image/cropped.png", crop)
                 self.get_htr(self.image)
-                os.system("python main.py --mode infer --decoder bestpath")
+                os.system("python htr/main.py --mode infer --decoder bestpath")
                 self.text = open("HTR_text.txt", "r").readlines()
                 self.ui.textEdit_htr.setText(str(self.text))
                 f = open("HTR_text.txt", "w")

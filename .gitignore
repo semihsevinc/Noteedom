@@ -1,8 +1,11 @@
 env/
 deneme.py
-segmented/
+segmented
 model/
 image/
+images/
+icon/
+themes/
 .idea/*
 __pycache__/
 *.py[cod]

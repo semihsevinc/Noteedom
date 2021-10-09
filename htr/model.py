@@ -4,8 +4,7 @@ from typing import List, Tuple
 
 import numpy as np
 import tensorflow as tf
-
-from dataloader_iam import Batch
+from htr.dataloader_iam import Batch
 
 # Disable eager mode
 tf.compat.v1.disable_eager_execution()

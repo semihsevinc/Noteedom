@@ -36,9 +36,6 @@
    <property name="styleSheet">
     <string notr="true">/* /////////////////////////////////////////////////////////////////////////////////////////////////
 
-SET APP STYLESHEET - FULL STYLES HERE
-DARK THEME - DRACULA COLOR BASED
-
 ///////////////////////////////////////////////////////////////////////////////////////////////// */
 
 QWidget{
@@ -56,7 +53,7 @@ QToolTip {
 	background-position: left center;
     background-repeat: no-repeat;
 	border: none;
-	border-left: 2px solid rgb(255, 121, 198);
+	border-left: 2px solid rgb(255, 99, 71);
 	text-align: left;
 	padding-left: 8px;
 	margin: 0px;
@@ -80,7 +77,7 @@ Left Menu */
 	background-repeat: no-repeat;
 }
 #titleLeftApp { font: 63 12pt &quot;Segoe UI Semibold&quot;; }
-#titleLeftDescription { font: 8pt &quot;Segoe UI&quot;; color: rgb(189, 147, 249); }
+#titleLeftDescription { font: 8pt &quot;Segoe UI&quot;; color: rgb(255, 99, 71); }
 
 /* MENUS */
 #topMenu .QPushButton {	
@@ -96,7 +93,7 @@ Left Menu */
 	background-color: rgb(40, 44, 52);
 }
 #topMenu .QPushButton:pressed {	
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 	color: rgb(255, 255, 255);
 }
 #bottomMenu .QPushButton {	
@@ -112,7 +109,7 @@ Left Menu */
 	background-color: rgb(40, 44, 52);
 }
 #bottomMenu .QPushButton:pressed {	
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 	color: rgb(255, 255, 255);
 }
 #leftMenuFrame{
@@ -131,7 +128,7 @@ Left Menu */
 	background-color: rgb(40, 44, 52);
 }
 #output_btn_frame .QPushButton:pressed {	
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 	color: rgb(255, 255, 255);
 }
 
@@ -150,7 +147,7 @@ Left Menu */
 	background-color: rgb(40, 44, 52);
 }
 #toggleButton:pressed {
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 }
 
 /* Title Menu */
@@ -163,7 +160,7 @@ Extra Tab */
 	background-color: rgb(44, 49, 58);
 }
 #extraTopBg{	
-	background-color: rgb(189, 147, 249)
+	background-color: rgb(255, 99, 71)
 }
 
 /* Icon */
@@ -178,8 +175,8 @@ Extra Tab */
 
 /* Btn Close */
 #extraCloseColumnBtn { background-color: rgba(255, 255, 255, 0); border: none;  border-radius: 5px; }
-#extraCloseColumnBtn:hover { background-color: rgb(196, 161, 249); border-style: solid; border-radius: 4px; }
-#extraCloseColumnBtn:pressed { background-color: rgb(180, 141, 238); border-style: solid; border-radius: 4px; }
+#extraCloseColumnBtn:hover { background-color: rgba(255, 99, 71, 0.4); border-style: solid; border-radius: 4px; }
+#extraCloseColumnBtn:pressed { background-color: rgba(255, 99, 71, 0.6); border-style: solid; border-radius: 4px; }
 
 /* Extra Content */
 #extraContent{
@@ -200,7 +197,7 @@ background-position: left center;
 	background-color: rgb(40, 44, 52);
 }
 #extraTopMenu .QPushButton:pressed {	
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 	color: rgb(255, 255, 255);
 }
 
@@ -220,11 +217,11 @@ Content App */
 
 /* Theme Settings */
 #extraRightBox { background-color: rgb(44, 49, 58); }
-#themeSettingsTopDetail { background-color: rgb(189, 147, 249); }
+#themeSettingsTopDetail { background-color: rgb(255, 99, 71); }
 
 /* Bottom Bar */
 #bottomBar { background-color: rgb(44, 49, 58); }
-#bottomBar QLabel { font-size: 11px; color: rgb(113, 126, 149); padding-left: 10px; padding-right: 10px; padding-bottom: 2px; }
+#bottomBar QLabel { font-size: 11px; color: rgb(113, 126, 190); padding-left: 10px; padding-right: 10px; padding-bottom: 2px; }
 
 /* CONTENT SETTINGS */
 /* MENUS */
@@ -241,7 +238,7 @@ Content App */
 	background-color: rgb(40, 44, 52);
 }
 #contentSettings .QPushButton:pressed {	
-	background-color: rgb(189, 147, 249);
+	background-color: rgb(255, 99, 71);
 	color: rgb(255, 255, 255);
 }
 
@@ -254,7 +251,7 @@ QLineEdit {
 	border: 2px solid rgb(33, 37, 43);
 	padding-left: 10px;
 	selection-color: rgb(255, 255, 255);
-	selection-background-color: rgb(255, 121, 198);
+	selection-background-color: rgb(255, 99, 71);
 }
 QLineEdit:hover {
 	border: 2px solid rgb(64, 71, 88);
@@ -273,7 +270,7 @@ QScrollBar:horizontal {
 	border-radius: 0px;
 }
 QScrollBar::handle:horizontal {
-    background: rgb(189, 147, 249);
+    background: rgba(255, 99, 71,0.6);
     min-width: 25px;
 	border-radius: 4px
 }
@@ -311,7 +308,7 @@ QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal
 	border-radius: 0px;
  }
  QScrollBar::handle:vertical {	
-	background: rgb(189, 147, 249);
+	background: rgba(255, 99, 71,0.6);
     min-height: 25px;
 	border-radius: 4px
  }
@@ -420,7 +417,7 @@ QSlider::groove:horizontal:hover {
 	background-color: rgb(55, 62, 76);
 }
 QSlider::handle:horizontal {
-    background-color: rgb(189, 147, 249);
+    background-color: rgb(255, 99, 71);
     border: none;
     height: 10px;
     width: 10px;
@@ -428,10 +425,10 @@ QSlider::handle:horizontal {
 	border-radius: 5px;
 }
 QSlider::handle:horizontal:hover {
-    background-color: rgb(195, 155, 255);
+    background-color: rgb(255, 99, 71);
 }
 QSlider::handle:horizontal:pressed {
-    background-color: rgb(255, 121, 198);
+    background-color: rgb(255, 99, 71);
 }
 
 QSlider::groove:vertical {
@@ -444,7 +441,7 @@ QSlider::groove:vertical:hover {
 	background-color: rgb(55, 62, 76);
 }
 QSlider::handle:vertical {
-    background-color: rgb(189, 147, 249);
+    background-color: rgb(255, 99, 71);
 	border: none;
     height: 10px;
     width: 10px;
@@ -452,26 +449,26 @@ QSlider::handle:vertical {
 	border-radius: 5px;
 }
 QSlider::handle:vertical:hover {
-    background-color: rgb(195, 155, 255);
+    background-color: rgb(255, 99, 71);
 }
 QSlider::handle:vertical:pressed {
-    background-color: rgb(255, 121, 198);
+    background-color: rgb(255, 99, 71);
 }
 
 /* /////////////////////////////////////////////////////////////////////////////////////////////////
 CommandLinkButton */
 QCommandLinkButton {	
-	color: rgb(255, 121, 198);
+	color: rgb(255, 99, 71);
 	border-radius: 5px;
 	padding: 5px;
-	color: rgb(255, 170, 255);
+	color: rgb(255, 99, 71);
 }
 QCommandLinkButton:hover {	
-	color: rgb(255, 170, 255);
+	color: rgb(255, 99, 71);
 	background-color: rgb(44, 49, 60);
 }
 QCommandLinkButton:pressed {	
-	color: rgb(189, 147, 249);
+	color: rgb(255, 99, 71);
 	background-color: rgb(52, 58, 71);
 }
 
@@ -761,6 +758,9 @@ Button */
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
+                  <property name="toolTip">
+                   <string>Hide/Expose</string>
+                  </property>
                   <property name="layoutDirection">
                    <enum>Qt::LeftToRight</enum>
                   </property>
@@ -777,6 +777,9 @@ Button */
              </item>
              <item alignment="Qt::AlignTop">
               <widget class="QFrame" name="topMenu">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
                <property name="frameShape">
                 <enum>QFrame::NoFrame</enum>
                </property>
@@ -825,6 +828,9 @@ Button */
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
+                  <property name="toolTip">
+                   <string/>
+                  </property>
                   <property name="layoutDirection">
                    <enum>Qt::LeftToRight</enum>
                   </property>
@@ -833,6 +839,15 @@ Button */
                   </property>
                   <property name="text">
                    <string>HTR</string>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+1</string>
                   </property>
                  </widget>
                 </item>
@@ -862,6 +877,9 @@ Button */
                   <property name="cursor">
                    <cursorShape>PointingHandCursor</cursorShape>
                   </property>
+                  <property name="toolTip">
+                   <string/>
+                  </property>
                   <property name="layoutDirection">
                    <enum>Qt::LeftToRight</enum>
                   </property>
@@ -870,6 +888,15 @@ Button */
                   </property>
                   <property name="text">
                    <string>OCR</string>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+2</string>
                   </property>
                  </widget>
                 </item>
@@ -908,6 +935,15 @@ Button */
                   <property name="text">
                    <string>PDF Scanner</string>
                   </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+^</string>
+                  </property>
                  </widget>
                 </item>
                 <item>
@@ -918,6 +954,12 @@ Button */
                     <height>45</height>
                    </size>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="toolTip">
+                   <string/>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-image: url(:/icons/images/icons/cil-image1.png);</string>
                   </property>
@@ -926,36 +968,6 @@ Button */
                   </property>
                  </widget>
                 </item>
-               </layout>
-              </widget>
-             </item>
-             <item>
-              <widget class="QFrame" name="output_btn_frame">
-               <property name="frameShape">
-                <enum>QFrame::NoFrame</enum>
-               </property>
-               <property name="frameShadow">
-                <enum>QFrame::Raised</enum>
-               </property>
-               <property name="midLineWidth">
-                <number>0</number>
-               </property>
-               <layout class="QVBoxLayout" name="verticalLayout_17">
-                <property name="spacing">
-                 <number>0</number>
-                </property>
-                <property name="leftMargin">
-                 <number>0</number>
-                </property>
-                <property name="topMargin">
-                 <number>0</number>
-                </property>
-                <property name="rightMargin">
-                 <number>0</number>
-                </property>
-                <property name="bottomMargin">
-                 <number>100</number>
-                </property>
                 <item>
                  <spacer name="verticalSpacer">
                   <property name="orientation">
@@ -977,11 +989,26 @@ Button */
                     <height>40</height>
                    </size>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="toolTip">
+                   <string/>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-image: url(:/icons/images/icons/cil-wrap-text.png);</string>
                   </property>
                   <property name="text">
                    <string>HTR Output</string>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>0</width>
+                    <height>0</height>
+                   </size>
+                  </property>
+                  <property name="shortcut">
+                   <string>Ctrl+4</string>
                   </property>
                  </widget>
                 </item>
@@ -993,11 +1020,23 @@ Button */
                     <height>40</height>
                    </size>
                   </property>
+                  <property name="cursor">
+                   <cursorShape>PointingHandCursor</cursorShape>
+                  </property>
+                  <property name="toolTip">
+                   <string/>
+                  </property>
                   <property name="styleSheet">
                    <string notr="true">background-image: url(:/icons/images/icons/cil-chevron-double-right.png);</string>
                   </property>
                   <property name="text">
                    <string>OCR Output</string>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>0</width>
+                    <height>16</height>
+                   </size>
                   </property>
                  </widget>
                 </item>
@@ -1213,7 +1252,7 @@ Button */
                   <cursorShape>PointingHandCursor</cursorShape>
                  </property>
                  <property name="toolTip">
-                  <string>Close left box</string>
+                  <string>Close Settings</string>
                  </property>
                  <property name="text">
                   <string/>
@@ -1909,6 +1948,9 @@ p, li { white-space: pre-wrap; }
                               <height>40</height>
                              </size>
                             </property>
+                            <property name="styleSheet">
+                             <string notr="true">font: 11pt &quot;Times New Roman&quot;;</string>
+                            </property>
                             <property name="frameShape">
                              <enum>QFrame::NoFrame</enum>
                             </property>
@@ -1917,7 +1959,7 @@ p, li { white-space: pre-wrap; }
                             </property>
                             <layout class="QHBoxLayout" name="horizontalLayout_6">
                              <property name="spacing">
-                              <number>0</number>
+                              <number>5</number>
                              </property>
                              <property name="leftMargin">
                               <number>0</number>
@@ -1934,7 +1976,7 @@ p, li { white-space: pre-wrap; }
                              <item>
                               <widget class="QLabel" name="label">
                                <property name="styleSheet">
-                                <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+                                <string notr="true"/>
                                </property>
                                <property name="text">
                                 <string>Font Size : </string>
@@ -1960,7 +2002,7 @@ p, li { white-space: pre-wrap; }
                              <item>
                               <widget class="QLabel" name="label_3">
                                <property name="styleSheet">
-                                <string notr="true">font: 10pt &quot;Segoe UI&quot;;</string>
+                                <string notr="true"/>
                                </property>
                                <property name="text">
                                 <string>Copy</string>
@@ -2136,13 +2178,16 @@ color: rgb(0, 0, 0);</string>
                               <height>40</height>
                              </size>
                             </property>
+                            <property name="styleSheet">
+                             <string notr="true">font: 11pt &quot;Times New Roman&quot;;</string>
+                            </property>
                             <property name="frameShape">
-                             <enum>QFrame::StyledPanel</enum>
+                             <enum>QFrame::NoFrame</enum>
                             </property>
                             <property name="frameShadow">
                              <enum>QFrame::Raised</enum>
                             </property>
-                            <layout class="QHBoxLayout" name="horizontalLayout_7">
+                            <layout class="QHBoxLayout" name="horizontalLayout_7" stretch="0,0,0,0,0,0,0">
                              <property name="spacing">
                               <number>5</number>
                              </property>
