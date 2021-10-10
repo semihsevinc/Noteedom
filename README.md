@@ -32,28 +32,44 @@ To use OCR, you need to:
 </h3>
 You should select the image you want to convert by clicking the 'Open Image' button located in the left menu bar.</br>
 Then you will see that the image is transferred to the OCR tab.</br>
+
 ![](Readme/6s.png)
+
 After that, all you need to do is scan with the mouse to include the text you want to convert.</br>
+
 ![](Readme/7s.png)
+
 You can see the result in the window that opens by clicking on the 'OCR Results' button located in the lower-left menu bar.</br>
+
 ![](Readme/8s.png)
+
 (Make sure that you are on the OCR tab when performing these operations, and thanks to Google Tesseract, you can select the desired language option in the window that opens by clicking on the 'OCR Results' button)</br>
 <h2 align="center">
 HTR
 </h2>
 HTR technology is the process of converting user-specific handwriting into optical characters using an algorithm trained with a lot of data. In this application, you can convert your handwritten images into optical characters.
+
 ![](Readme/0s.png)
+
 <h3 align="left">
 To use HTR, you need to:
 </h3>
 You should select the image you want to convert by clicking the 'Open Image' button located in the left menu bar.</br>
+
 ![](Readme/1s.png)
+
 Then you will see that the image is transferred to the HTR tab.</br>
+
 ![](Readme/2s.png)
+
 After that, all you need to do is scan with the mouse to include the text you want to convert.</br>
+
 ![](Readme/3s.png)
+
 You can see the result in the window that opens by clicking on the ‘HTR Results’ button located in the lower-left menu bar.</br>
+
 ![](Readme/4s.png)
+
 (Make sure that you are on the HTR tab when performing these operations, and note that the HTR operation works only for English)</br>
 
 <h2 align="center">
@@ -63,4 +79,4 @@ PDF Scanner
 Not Able to Use (Will Operate Soon)</h3>
 
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)
-#![Platform Altium](https://camo.githubusercontent.com/eea5f85b1a151457b550de8be99fca5eb49617e813e009a513ab1655e16dcc2f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f706c6174666f726d2d616c7469756d2d79656c6c6f773f7374796c653d666f722d7468652d6261646765)
+
