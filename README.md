@@ -63,3 +63,4 @@ PDF Scanner
 Not Able to Use (Will Operate Soon)</h3>
 
 ![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)
+#![Platform Altium](https://camo.githubusercontent.com/eea5f85b1a151457b550de8be99fca5eb49617e813e009a513ab1655e16dcc2f/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f706c6174666f726d2d616c7469756d2d79656c6c6f773f7374796c653d666f722d7468652d6261646765)
