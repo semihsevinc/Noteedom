@@ -1,4 +1,4 @@
-
+![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)
 <p align="center">
   <img src="https://user-images.githubusercontent.com/82322856/136671142-97761275-997c-440a-9727-8d70fb6662ae.png" alt="my banner">
 </p>
@@ -78,5 +78,5 @@ PDF Scanner
 <h3 align="left">
 Not Able to Use (Will Operate Soon)</h3>
 
-![Visitors](https://visitor-badge.glitch.me/badge?page_id=semihsevinc.Noteedom)
+
 
