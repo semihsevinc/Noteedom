@@ -1,4 +1,3 @@
-import htr.main
 import pytesseract
 import cv2
 import sys
@@ -23,10 +22,6 @@ from htr.main import *
 import platform
 from modules import *
 from widgets import *
-from PySide6.QtCore import *
-from PySide6.QtGui import *
-from PySide6.QtWidgets import *
-import multiprocessing
 
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
@@ -230,31 +225,6 @@ class MainWindow(QMainWindow):
                 save.save("segmented/" + str(i + 100) + ".png")
                 i += 1
 
-    def get_text(self):
-        parser = argparse.ArgumentParser()
-        parser.add_argument('--mode', choices=['train', 'validate', 'infer'], default='infer')
-        parser.add_argument('--decoder', choices=['bestpath', 'beamsearch', 'wordbeamsearch'], default='bestpath')
-        parser.add_argument('--batch_size', help='Batch size.', type=int, default=100)
-        parser.add_argument('--data_dir', help='Directory containing IAM dataset.', type=Path, required=False)
-        parser.add_argument('--fast', help='Load samples from LMDB.', action='store_true')
-        parser.add_argument('--line_mode', help='Train to read text lines instead of single words.',
-                            action='store_true')
-        parser.add_argument('--early_stopping', help='Early stopping epochs.', type=int, default=10)
-        parser.add_argument('--dump', help='Dump output of NN to CSV file(s).', action='store_true')
-        args = parser.parse_args()
-        # set chosen CTC decoder
-        decoder_mapping = {'bestpath': DecoderType.BestPath,
-                           'beamsearch': DecoderType.BeamSearch,
-                           'wordbeamsearch': DecoderType.WordBeamSearch}
-        decoder_type = decoder_mapping[args.decoder]
-        model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore=False, dump=args.dump)
-
-        pp = FilePaths()
-        pp.paths = Path(r'segmented').glob('*.png')
-        for path in pp.paths:
-            infer(model, path)
-
-
     def eventFilter(self, source, event):
         width = 0
         height = 0
@@ -299,12 +269,8 @@ class MainWindow(QMainWindow):
                        self.left_top.x():self.left_top.x() + width]
 
                 cv2.imwrite("image/cropped.png", crop)
-                self.get_htr(self.image)
-                # p = multiprocessing.Process(target=self.get_text())
-                # p.start()
-                # p.join()
-                # os.system("python htr/main.py --mode infer --decoder bestpath")
-                htr.main.main()
+                _list = self.get_htr(self.image)
+                os.system("python htr/main.py --mode infer --decoder bestpath")
                 self.text = open("HTR_text.txt", "r").readlines()
                 self.ui.textEdit_htr.setText(str(self.text))
                 f = open("HTR_text.txt", "w")
