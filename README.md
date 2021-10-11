@@ -17,7 +17,7 @@ The basis of this application was created in Sakarya University Electrical Elect
 <h3 align="left">
 To Open the Noteedom Application
 </h3>
-Clone This Repositories</br>
+Clone This Repository</br>
 Run noteedom.py</br>
 
 <h2 align="center">
