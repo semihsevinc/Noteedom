@@ -11,7 +11,6 @@ import segmentation.words
 # HTR
 import argparse
 import json
-from typing import Tuple, List
 import editdistance
 from path import Path
 from htr.dataloader_iam import DataLoaderIAM, Batch

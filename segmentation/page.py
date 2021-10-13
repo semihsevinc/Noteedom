@@ -35,7 +35,7 @@ def _four_corners_sort(pts):
 
 def _find_page_contours(edges, img):
     """Finding corner points of page contour."""
-    im2, contours, hierarchy = cv2.findContours(edges,
+    contours, hierarchy = cv2.findContours(edges,
                                                 cv2.RETR_TREE,
                                                 cv2.CHAIN_APPROX_SIMPLE)
 

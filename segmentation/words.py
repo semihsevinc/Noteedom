@@ -114,7 +114,7 @@ def _text_detect(img, image, join=False):
     kernel = np.ones((5, 30), np.uint16)
     img_dilation = cv2.dilate(small, kernel, iterations=1)
 
-    im2, cnt, hierarchy = cv2.findContours(np.copy(small),
+    cnt, hierarchy = cv2.findContours(np.copy(small),
                                            cv2.RETR_TREE,
                                            cv2.CHAIN_APPROX_SIMPLE)
     index = 0
