@@ -1,9 +1,6 @@
-# -*- coding: utf-8 -*-
-
 import numpy as np
 import cv2
 from segmentation.utils import *
-
 
 def detection(image, join=False):
     """Detecting the words bounding boxes.
@@ -17,7 +14,6 @@ def detection(image, join=False):
                               np.ones((15, 15), np.uint8))
 
     return _text_detect(bw_img, image, join)
-
 
 def sort_words(boxes):
     """Sort boxes - (x, y, x+w, y+h) from left to right, top to bottom."""
@@ -42,7 +38,6 @@ def sort_words(boxes):
 
     return lines
 
-
 def _edge_detect(im):
     """
     Edge detection using sobel operator on each layer individually.
@@ -52,7 +47,6 @@ def _edge_detect(im):
                             _sobel_detect(im[:, :, 1]),
                             _sobel_detect(im[:, :, 2])]), axis=0)
 
-
 def _sobel_detect(channel):
     """Sobel operator."""
     sobel_x = cv2.Sobel(channel, cv2.CV_16S, 1, 0)
@@ -61,14 +55,12 @@ def _sobel_detect(channel):
     sobel[sobel > 255] = 255
     return np.uint8(sobel)
 
-
 def union(a, b):
     x = min(a[0], b[0])
     y = min(a[1], b[1])
     w = max(a[0] + a[2], b[0] + b[2]) - x
     h = max(a[1] + a[3], b[1] + b[3]) - y
     return [x, y, w, h]
-
 
 def _intersect(a, b):
     x = max(a[0], b[0])
@@ -78,7 +70,6 @@ def _intersect(a, b):
     if w < 0 or h < 0:
         return False
     return True
-
 
 def _group_rectangles(rec):
     """
@@ -104,7 +95,6 @@ def _group_rectangles(rec):
         i += 1
 
     return final
-
 
 def _text_detect(img, image, join=False):
     """Text detection using contours."""
