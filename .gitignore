@@ -1,9 +1,5 @@
 env/
 deneme.py
-segmented/
-segmented
-segmented/*.png
-model/
 image/
 images/
 icon/
