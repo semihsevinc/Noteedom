@@ -15,9 +15,6 @@ class FilePaths:
     fn_summary = r'model\summary.json'
     fn_corpus = r'data\corpus.txt'
 
-    from pathlib import Path
-
-    paths = ""
 
 def get_img_height() -> int:
     """Fixed height for NN."""
