@@ -21,7 +21,6 @@ def _edges_detection(img, minVal, maxVal):
                              value = [0, 0, 0])
     return cv2.Canny(img, minVal, maxVal)
 
-
 def _four_corners_sort(pts):
     """Sort corners in order: top-left, bot-left, bot-right, top-right."""
     diff = np.diff(pts, axis = 1)
@@ -30,8 +29,6 @@ def _four_corners_sort(pts):
                      pts[np.argmax(diff)],
                      pts[np.argmax(sum)],
                      pts[np.argmin(diff)]])
-
-
 
 def _find_page_contours(edges, img):
     """Finding corner points of page contour."""
@@ -72,7 +69,6 @@ def _find_page_contours(edges, img):
     page_contour = _four_corners_sort(page_contour)
     return _contour_offset(page_contour, (-5, -5))
 
-
 def _persp_transform(img, s_points):
     """Transform perspective from start points to target points."""
     # Euclidean distance - calculate maximum height and width
@@ -93,8 +89,6 @@ def _persp_transform(img, s_points):
 
     M = cv2.getPerspectiveTransform(s_points, t_points)
     return cv2.warpPerspective(img, M, (int(width), int(height)))
-
-
 
 def detection(image):
     """Finding Page."""
