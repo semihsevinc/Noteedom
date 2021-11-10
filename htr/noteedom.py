@@ -355,6 +355,7 @@ class MainWindow(QMainWindow):
         # SET DRAG POS WINDOW
         self.dragPos = event.globalPos()
 
+
 class Window(QMainWindow):
     def __init__(self):
         super().__init__()
