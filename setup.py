@@ -9,7 +9,6 @@ target = Executable(
     base = "Win32GUI",
     icon = "icon/icon.ico"
 )
-
 setup(
     name = "NOTEEDOM",
     version = "1.2.0",
