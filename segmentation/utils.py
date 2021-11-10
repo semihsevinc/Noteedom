@@ -1,19 +1,13 @@
-# -*- coding: utf-8 -*-
-
-
 import numpy as np
 import cv2
 
-
 min_height = 400
-
 
 def implt(img, cmp=None, t=''):
     """Show image using plt."""
     cv2.namedWindow('Bounding Box', cv2.WINDOW_AUTOSIZE)
     cv2.imshow('Bounding Box', img)
     cv2.waitKey(0)
-
 
 def resize(img, height=min_height, allways=False):
     """Resize image to given height."""
@@ -25,11 +19,9 @@ def resize(img, height=min_height, allways=False):
 
     return img
 
-
 def ratio(img, height=min_height):
     """Getting scale ratio."""
     return img.shape[0] /height
-
 
 def img_extend(img, shape):
     """Extend 2D image (numpy array) in vertical and horizontal direction.
