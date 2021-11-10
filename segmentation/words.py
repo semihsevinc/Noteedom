@@ -155,7 +155,7 @@ def _text_detect(img, image, join=False):
         bounding_boxes = np.vstack((bounding_boxes,
                                     np.array([x, y, x + w, y + h])))
 
-    # implt(small, t='Bounding Boxes')
+    implt(small, t='Bounding Boxes')
 
     boxes = bounding_boxes.dot(ratio(image, small.shape[0])).astype(np.int64)
     return boxes[1:]
