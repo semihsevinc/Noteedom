@@ -4,6 +4,7 @@
     <file>images/images/htr.png</file>
     <file>images/images/ocr.png</file>
     <file>images/images/scanner.png</file>
+
   </qresource>
   <qresource prefix="icons">
     <file>images/icons/cil-3d.png</file>
