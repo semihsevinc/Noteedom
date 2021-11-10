@@ -129,12 +129,11 @@ class Model:
         elif self.decoder_type == DecoderType.BeamSearch:
             self.decoder = tf.nn.ctc_beam_search_decoder(inputs=self.ctc_in_3d_tbc, sequence_length=self.seq_len,
                                                          beam_width=50)
-        # word beam search decoding (see https://github.com/githubharald/CTCWordBeamSearch)
         elif self.decoder_type == DecoderType.WordBeamSearch:
             # prepare information about language (dictionary, characters in dataset, characters forming words)
             chars = ''.join(self.char_list)
-            word_chars = open(r'C:\Users\semih\Noteedom\model\wordCharList.txt').read().splitlines()[0]
-            corpus = open(r'C:\Users\semih\Noteedom\data\corpus.txt').read()
+            word_chars = open('model\wordCharList.txt').read().splitlines()[0]
+            corpus = open('htr\data\corpus.txt').read()
 
             # decode using the "Words" mode of word beam search
             from word_beam_search import WordBeamSearch
@@ -152,7 +151,7 @@ class Model:
         sess = tf.compat.v1.Session()  # TF session
 
         saver = tf.compat.v1.train.Saver(max_to_keep=1)  # saver saves model to file
-        model_dir = '../model/'
+        model_dir = 'model/'
         latest_snapshot = tf.train.latest_checkpoint(model_dir)  # is there a saved model?
 
         # if model must be restored (for inference), there must be a snapshot
