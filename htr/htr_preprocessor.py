@@ -1,11 +1,8 @@
 import random
 from typing import Tuple
-
 import cv2
 import numpy as np
-
-from htr.dataloader_iam import Batch
-
+from htr_dataloader import Batch
 
 class Preprocessor:
     def __init__(self,
@@ -173,7 +170,6 @@ class Preprocessor:
         max_text_len = res_imgs[0].shape[0] // 4
         res_gt_texts = [self._truncate_label(gt_text, max_text_len) for gt_text in batch.gt_texts]
         return Batch(res_imgs, res_gt_texts, batch.batch_size)
-
 
 def main():
     import matplotlib.pyplot as plt

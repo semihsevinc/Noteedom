@@ -1,4 +1,4 @@
-from noteedom import *
+from htr.noteedom import *
 GLOBAL_STATE = False
 GLOBAL_TITLE_BAR = True
 

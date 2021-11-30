@@ -1,3 +1,9 @@
+""" Purpose of Using: Handwriting Text Recognition from Segmented Words
+    Input: Segmented Handwritten Image
+    Output: Predicted Text (def infer
+                            recognized, probability = model.infer_batch())
+"""
+
 import argparse
 import json
 from typing import Tuple, List
@@ -5,9 +11,9 @@ import cv2
 import editdistance
 from path import Path
 import sys
-from htr.dataloader_iam import DataLoaderIAM, Batch
-from htr.model import Model, DecoderType
-from htr.preprocessor import Preprocessor
+from htr_dataloader import DataLoaderIAM, Batch
+from htr_model import Model, DecoderType
+from htr_preprocessor import Preprocessor
 
 class FilePaths:
     "filenames and paths to data"
@@ -23,8 +29,8 @@ def get_img_height() -> int:
 
 def get_img_size(line_mode: bool = False) -> Tuple[int, int]:
     """Height is fixed for NN, width is set according to training mode (single words or text lines)."""
-    if line_mode:
-        return 256, get_img_height()
+    # if line_mode:
+    #     return 256, get_img_height()
     return 128, get_img_height()
 
 
@@ -135,7 +141,6 @@ def infer(model: Model, fn_img: Path) -> None:
 def main():
     """Main function."""
     parser = argparse.ArgumentParser()
-
     parser.add_argument('--mode', choices=['train', 'validate', 'infer'], default='infer')
     parser.add_argument('--decoder', choices=['bestpath', 'beamsearch', 'wordbeamsearch'], default='bestpath')
     parser.add_argument('--batch_size', help='Batch size.', type=int, default=100)
@@ -177,13 +182,10 @@ def main():
             validate(model, loader, args.line_mode)
 
     if args.mode == 'infer':
-
         model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore = True, dump = args.dump)
-
     pp = FilePaths()
-    pp.paths = Path('../segmented').glob('*.png')
+    pp.paths = Path('segment').glob('*.png')
     for path in pp.paths:
-
         infer(model, path)
 
 if __name__ == '__main__':

@@ -1,4 +1,4 @@
-from noteedom import *
+from htr.noteedom import *
 
 class AppFunctions(MainWindow):
     def setThemeHack(self):

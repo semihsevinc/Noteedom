@@ -1,6 +1,5 @@
 import argparse
 import pickle
-
 import cv2
 import lmdb
 from path import Path

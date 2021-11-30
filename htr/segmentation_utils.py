@@ -5,8 +5,8 @@ min_height = 400
 
 def implt(img, cmp=None, t=''):
     """Show image using plt."""
-    cv2.namedWindow('Bounding Box', cv2.WINDOW_AUTOSIZE)
-    cv2.imshow('Bounding Box', img)
+    # cv2.namedWindow('Segmented Words')
+    cv2.imshow('Segmented Words', img)
     cv2.waitKey(0)
 
 def resize(img, height=min_height, allways=False):

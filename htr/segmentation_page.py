@@ -1,7 +1,6 @@
 import numpy as np
 import cv2
-
-from segmentation.utils import *
+from segmentation_utils import *
 
 
 def _edges_detection(img, minVal, maxVal):
@@ -32,9 +31,7 @@ def _four_corners_sort(pts):
 
 def _find_page_contours(edges, img):
     """Finding corner points of page contour."""
-    contours, hierarchy = cv2.findContours(edges,
-                                                cv2.RETR_TREE,
-                                                cv2.CHAIN_APPROX_SIMPLE)
+    contours, hierarchy = cv2.findContours(edges, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
 
     def _contour_offset(cnt, offset):
         """Offset contour because of 5px border."""
@@ -91,7 +88,8 @@ def _persp_transform(img, s_points):
     return cv2.warpPerspective(img, M, (int(width), int(height)))
 
 def detection(image):
-    """Finding Page."""
+    """Finding Page"""
+
     # Edge detection
     image_edges = _edges_detection(image, 50, 100)
 
@@ -105,6 +103,7 @@ def detection(image):
     page_contour = page_contour.dot(ratio(image))
     # Transform prespective
     new_image = _persp_transform(image, page_contour)
+    cv2.imwrite('image/persp_transform.png', new_image)
     return new_image
 
 

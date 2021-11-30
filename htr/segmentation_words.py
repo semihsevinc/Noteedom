@@ -1,6 +1,8 @@
 import numpy as np
 import cv2
-from segmentation.utils import *
+from segmentation_utils import *
+import pandas as pd
+import openpyxl
 
 def detection(image, join=False):
     """Detecting the words bounding boxes.
@@ -101,26 +103,33 @@ def _text_detect(img, image, join=False):
     small = resize(img, 1000)
 
     # Finding contours
-    kernel = np.ones((5, 30), np.uint16)
-    img_dilation = cv2.dilate(small, kernel, iterations=1)
+    kernel = np.ones((30, 30), np.uint16)
+    img_dilation = cv2.dilate(small, kernel, iterations=5)
 
     cnt, hierarchy = cv2.findContours(np.copy(small),
                                            cv2.RETR_TREE,
                                            cv2.CHAIN_APPROX_SIMPLE)
     index = 0
     boxes = []
-    # Go through all contours in top level
+    """ Go through all contours in top level"""
     while index >= 0:
         x, y, w, h = cv2.boundingRect(cnt[index])
         cv2.drawContours(img_dilation, cnt, index, (255, 255, 255), cv2.FILLED)
         mask_roi = img_dilation[y:y + h, x:x + w]
-        # Ratio of white pixels to area of bounding rectangle
+        """Ratio of white pixels to area of bounding rectangle"""
         r = cv2.countNonZero(mask_roi) / (w * h)
 
         # Limits for text
+        segmentation_data = openpyxl.load_workbook(r'../seg_limits.xlsx')
+        cell = segmentation_data.active
+        w_min = cell['A2'].value
+        w_max = cell['B2'].value
+        h_min = cell['C2'].value
+        h_max = cell['D2'].value
+
         if (r > 0.1
-                and 1600 > w > 15
-                and 1600 > h > 15
+                and int(w_max) > w > int(w_min)
+                and int(h_max) > h > int(h_min)
                 and h / w < 10
                 and w / h < 10
                 and (60 // h) * w < 1600):
@@ -141,11 +150,11 @@ def _text_detect(img, image, join=False):
         # bounding_boxes = np.vstack((bounding_boxes,
         #                             np.array([x, y, x + w, y + h])))
 
-        cv2.rectangle(small, (x, y), (x + w, y + h), (153, 50, 204), 2)  # color code:darkorchid
+        cv2.rectangle(image, (x-5, y-5), (x + w+5, y + h+5), (0, 0, 255), 1)  # color code:darkorchid (153, 50, 204)
         bounding_boxes = np.vstack((bounding_boxes,
                                     np.array([x, y, x + w, y + h])))
 
-    implt(small, t='Bounding Boxes')
+    implt(image)
 
-    boxes = bounding_boxes.dot(ratio(image, small.shape[0])).astype(np.int64)
+    boxes = bounding_boxes.dot(ratio(img, small.shape[0])).astype(np.int64)
     return boxes[1:]

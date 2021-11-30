@@ -3,18 +3,16 @@ import sys
 from typing import List, Tuple
 import numpy as np
 import tensorflow as tf
-from htr.dataloader_iam import Batch
+from htr_dataloader import Batch
 
 # Disable eager mode
 tf.compat.v1.disable_eager_execution()
-
 
 class DecoderType:
     """CTC decoder types."""
     BestPath = 0
     BeamSearch = 1
     WordBeamSearch = 2
-
 
 class Model:
     """Minimalistic TF model for HTR."""

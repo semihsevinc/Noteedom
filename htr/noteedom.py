@@ -1,4 +1,3 @@
-
 import pytesseract
 import cv2
 import sys
@@ -7,33 +6,28 @@ import numpy as np
 # Word Segmentation
 import glob
 from PIL import Image
-import segmentation.page
-import segmentation.words
+import segmentation_main
 # HTR
-import argparse
-import json
-import editdistance
-from path import Path
-from htr.dataloader_iam import DataLoaderIAM, Batch
-from htr.model import Model, DecoderType
-from htr.preprocessor import Preprocessor
+from htr_main import *
 # from htr.main import *
 # GUI
 import platform
-from modules import *
 from widgets import *
+from modules import *
 
 os.environ["QT_FONT_DPI"] = "96" # FIX Problem for High DPI and Scale above 100%
+
+"""Tesseract-OCR File Location"""
 pytesseract.pytesseract.tesseract_cmd = r"C:\Program Files\Tesseract-OCR\tesseract.exe"
 language_path = r"C:\\Program Files\\Tesseract-OCR\\tessdata\\"
 language_path_list = glob.glob(language_path + "*.traineddata")
 
 language_names_list = []
-
 for path in language_path_list:
     base_name = os.path.basename(path)
     base_name = os.path.splitext(base_name)[0]
     language_names_list.append(base_name)
+
 
 font_list = []
 for font in range(41):
@@ -51,7 +45,7 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         widgets = self.ui
-        self.setWindowIcon(QIcon("icon/icon.ico"))
+        self.setWindowIcon(QIcon("../icon/icon.ico"))
         self.title = "NOTEEDOM - For Everyone"
         self.description = "NOTEEDOM APP - Optical Character and Handwritten Text Recognition"
         self.language = "eng"
@@ -104,13 +98,21 @@ class MainWindow(QMainWindow):
         # EXTRA LEFT BOX
         def openCloseLeftBox():
             UIFunctions.toggleLeftBox(self, True)
-        widgets.toggleLeftBox.clicked.connect(openCloseLeftBox)#
-        widgets.extraCloseColumnBtn.clicked.connect(openCloseLeftBox)#
+        widgets.toggleLeftBox.clicked.connect(openCloseLeftBox)
+        widgets.extraCloseColumnBtn.clicked.connect(openCloseLeftBox)
 
         # EXTRA RIGHT BOX
         def openCloseRightBox():
             UIFunctions.toggleRightBox(self, True)
-        widgets.settingsTopBtn.clicked.connect(openCloseRightBox)#
+        widgets.settingsTopBtn.clicked.connect(openCloseRightBox)
+
+    def resizeEvent(self, event):
+        # Update Size Grips
+        UIFunctions.resize_grips(self)
+
+    def mousePressEvent(self, event):
+        # SET DRAG POS WINDOW
+        self.dragPos = event.globalPos()
 
     def update_lang(self, val):
         self.language = val
@@ -135,30 +137,26 @@ class MainWindow(QMainWindow):
             widgets.stackedWidget.setCurrentWidget(widgets.page_htr)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
+        if btnName == "btn_bottom_htr":
+            widgets.stackedWidget.setCurrentWidget(widgets.page_htr)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
         # SHOW OCR PAGE
         if btnName == "btn_ocr":
             widgets.stackedWidget.setCurrentWidget(widgets.page_ocr)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW PDF SCANNER PAGE
-        if btnName == "btn_pdf":
-            widgets.stackedWidget.setCurrentWidget(widgets.page_pdf)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        if btnName == "btn_bottom_htr":
-            widgets.stackedWidget.setCurrentWidget(widgets.page_htr)
-            UIFunctions.resetStyle(self, btnName)
-            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
-
-        # SHOW PDF SCANNER PAGE
         if btnName == "btn_bottom_ocr":
             widgets.stackedWidget.setCurrentWidget(widgets.page_ocr)
             UIFunctions.resetStyle(self, btnName)
             btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
+        # SHOW PDF SCANNER PAGE (Out of Usage)
+        if btnName == "btn_pdf":
+            widgets.stackedWidget.setCurrentWidget(widgets.page_pdf)
+            UIFunctions.resetStyle(self, btnName)
+            btn.setStyleSheet(UIFunctions.selectMenu(btn.styleSheet()))
 
     def open(self):
         filename = QFileDialog.getOpenFileName(self, 'Open a Image', '',
@@ -185,109 +183,6 @@ class MainWindow(QMainWindow):
         print('Text:', text)
         return text
 
-    # Word Segmentation from full page for HTR
-    @staticmethod
-    def get_htr(image):
-        folder_path = '../segmented'
-        folder = os.listdir(folder_path)
-        for images in folder:
-            if images.endswith(".png"):
-                os.remove(os.path.join(folder_path, images))
-        image = cv2.imread("image/cropped.png")
-        # image = cv2.resize(image, (int(image.shape[1]), 1000))
-        rgb_planes = cv2.split(image)
-        result_planes = []
-        result_norm_planes = []
-        for plane in rgb_planes:
-            dilated_img = cv2.dilate(plane, np.ones((5, 5), np.uint8))
-            bg_img = cv2.medianBlur(dilated_img, 21)
-            diff_img = 255 - (cv2.absdiff(plane, bg_img))
-            norm_img = cv2.normalize(diff_img, None, alpha=0, beta=255, norm_type=cv2.NORM_MINMAX,
-                                     dtype=cv2.CV_8UC1)
-            result_planes.append(diff_img)
-            result_norm_planes.append(norm_img)
-        cv2.merge(result_planes)
-        shadows_out_image = cv2.merge(result_norm_planes)
-
-        """shadow removed from image"""
-        cv2.imwrite('image/preprocessed.png', shadows_out_image)
-
-        # Crop image and get limiting lines of boxes
-        crop = segmentation.page.detection(shadows_out_image)
-        boxes = segmentation.words.detection(crop)
-        lines = segmentation.words.sort_words(boxes)
-
-        i = 0
-        for line in lines:
-            text = crop.copy()
-            for (x1, y1, x2, y2) in line:
-                save = Image.fromarray(text[y1:y2, x1:x2])
-                save.save("segmented/" + str(i + 100) + ".png")
-                i += 1
-
-    def getText(self):
-        class FilePaths:
-            "filenames and paths to data"
-            fn_char_list = r'model/charList.txt'
-            fn_summary = r'model/summary.json'
-            fn_corpus = r'data/corpus.txt'
-
-        def get_img_height() -> int:
-            """Fixed height for NN."""
-            return 32
-
-        def get_img_size(line_mode: bool = False):
-            """Height is fixed for NN, width is set according to training mode (single words or text lines)."""
-            if line_mode:
-                return 256, get_img_height()
-            return 128, get_img_height()
-
-        def infer(model: Model, fn_img: Path) -> None:
-            """Recognizes text in image provided by file path."""
-            f = open("HTR_text.txt", "a")
-            img = cv2.imread(fn_img, cv2.IMREAD_GRAYSCALE)
-            assert img is not None
-
-            preprocessor = Preprocessor(get_img_size(), dynamic_width=True, padding=16)
-            img = preprocessor.process_img(img)
-
-            batch = Batch([img], None, 1)
-            recognized, probability = model.infer_batch(batch, True)
-            f.write(f'{recognized[0]}' + " ")
-            print(f'Recognized: "{recognized[0]}"')
-            print(f'Probability: {probability[0]}')
-
-        def main():
-            """Main function."""
-            parser = argparse.ArgumentParser()
-
-            parser.add_argument('--mode', choices=['train', 'validate', 'infer'], default='infer')
-            parser.add_argument('--decoder', choices=['bestpath', 'beamsearch', 'wordbeamsearch'], default='bestpath')
-            parser.add_argument('--batch_size', help='Batch size.', type=int, default=100)
-            parser.add_argument('--data_dir', help='Directory containing IAM dataset.', type=Path, required=False)
-            parser.add_argument('--fast', help='Load samples from LMDB.', action='store_true')
-            parser.add_argument('--line_mode', help='Train to read text lines instead of single words.',
-                                action='store_true')
-            parser.add_argument('--early_stopping', help='Early stopping epochs.', type=int, default=25)
-            parser.add_argument('--dump', help='Dump output of NN to CSV file(s).', action='store_true')
-            args = parser.parse_args()
-
-            # set chosen CTC decoder
-            decoder_mapping = {'bestpath': DecoderType.BestPath,
-                               'beamsearch': DecoderType.BeamSearch,
-                               'wordbeamsearch': DecoderType.WordBeamSearch}
-            decoder_type = decoder_mapping[args.decoder]
-
-            if args.mode == 'infer':
-                model = Model(open(FilePaths.fn_char_list).read(), decoder_type, must_restore=False, dump=args.dump)
-
-            pp = FilePaths()
-            pp.paths = Path('segmented').glob('*.png')
-            for path in pp.paths:
-                infer(model, path)
-
-        if __name__ == '__main__':
-            main()
 
     def eventFilter(self, source, event):
         width = 0
@@ -335,9 +230,9 @@ class MainWindow(QMainWindow):
                 f = open("HTR_text.txt", "w")
                 f.write("")
                 cv2.imwrite("image/cropped.png", crop)
-                _list = self.get_htr(crop)
-                self.getText()
-                # os.system("python htr/main.py --mode infer --decoder bestpath")
+                _list =segmentation_main.get_segmented()
+                main()
+                # os.system("python htr_main.py --mode infer --decoder bestpath")
                 self.text = open("HTR_text.txt", "r").readlines()
                 self.ui.textEdit_htr.setText(str(self.text))
 
@@ -347,13 +242,6 @@ class MainWindow(QMainWindow):
             return 0
         return QWidget.eventFilter(self, source, event)
 
-    def resizeEvent(self, event):
-        # Update Size Grips
-        UIFunctions.resize_grips(self)
-
-    def mousePressEvent(self, event):
-        # SET DRAG POS WINDOW
-        self.dragPos = event.globalPos()
 
 
 class Window(QMainWindow):
@@ -361,7 +249,7 @@ class Window(QMainWindow):
         super().__init__()
         import time
         splash = QSplashScreen()
-        splash.setPixmap(QPixmap('icon/splash.ico'))
+        splash.setPixmap(QPixmap('../icon/splash.ico'))
         splash.show()
         time.sleep(3)
 
