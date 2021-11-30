@@ -4,6 +4,7 @@ image/
 images/
 icon/
 themes/
+test/
 .idea/*
 __pycache__/
 *.py[cod]
@@ -141,3 +142,5 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+/htr/segmented/
+/htr/segment/
